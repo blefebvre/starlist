@@ -44,10 +44,12 @@ var exposeDb = function(req, resp, next){
 // Index
 app.get('/', exposeDb, routes.index);
 // New list
-app.get('/list/new', routes.listForm);
-app.post('/list/new', exposeDb, routes.createList);
+app.get('/list', routes.listForm);
+app.post('/list', exposeDb, routes.createList);
 // View list
 app.get('/list/:id', exposeDb, routes.viewList);
+// Add item to list
+app.post('/list/:id', exposeDb, routes.addListItem);
 
 // Start the server
 http.createServer(app).listen(app.get('port'), function(){

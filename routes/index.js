@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -32,7 +31,19 @@ exports.viewList = function(req, res) {
 	listProvider.findById(req.params.id, function(error, list) {
 		res.render('list_show.jade',
 		{
-			title: list.title
+			title: list.title,
+			list: list
 		});
 	});
+};
+
+exports.addListItem = function(req, res) {
+	var listProvider = req.listProvider;
+	listProvider.addItemToList(req.param('_id'), {
+			content: req.param('content'),
+			created_at: new Date()
+		}, function( error, list ) {
+			res.redirect('/list/' + req.param('_id'));
+		}
+	);
 };

@@ -53,15 +53,32 @@ ListProvider.prototype.save = function(lists, callback) {
 			for( var i =0; i< lists.length; i++ ) {
 				var list = lists[i];
 				list.created_at = new Date();
-				if( typeof list.comments === "undefined" ) list.comments = [];
-				for( var j =0; j< list.comments.length; j++) {
-					list.comments[j].created_at = new Date();
+				if( typeof list.items === "undefined" ) list.items = [];
+				for( var j =0; j< list.items.length; j++) {
+					list.items[j].created_at = new Date();
 				}
 			}
 
 			list_collection.insert(lists, function() {
 				callback(null, lists);
 			});
+		}
+	});
+};
+
+ListProvider.prototype.addItemToList = function(listId, listItem, callback) {
+	//listItem._id = new genObjectId();
+	this.getCollection(function(error, list_collection) {
+		if( error ) callback( error );
+		else {
+			list_collection.update(
+				{_id: new ObjectID(listId)},
+				{"$push": {items: listItem}},
+				function(error, list){
+					if( error ) callback(error);
+					else callback(null, list)
+				}
+			);
 		}
 	});
 };
