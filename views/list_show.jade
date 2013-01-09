@@ -2,14 +2,14 @@ extends layout
 
 block content
 	h1= title
+	ul
 	- each item in list.items
-		div.item
-			div.content= item.content
+		li= item.content
 	form( method="post" )
 		div
 			input( type="hidden", name="_id", value=list._id.toHexString())
 			label(for="content") New: 
-			input(type="text", name="content")
+			input(type="text", name="content", autofocus="autofocus")
 		div
 			input(type="submit", value="Add")
 

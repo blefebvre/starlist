@@ -1,0 +1,21 @@
+doctype 5
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+	h1= title
+	div
+		- if (typeof(message) !== 'undefined') {
+			h3= message
+		-}
+	form( method="post" )
+		div
+			div
+				span Username :
+				input(type="text", name="user[name]", autofocus="autofocus")
+			div
+				span Password :
+				input(type="password", name="user[password]")
+			div
+				input(type="submit", value="login")

@@ -3,9 +3,11 @@
  */
 var express = require('express')
 	, routes = require('./routes')
+	, userRoutes = require('./routes/user')
 	, http = require('http')
 	, path = require('path')
-	, ListProvider = require('./listprovider').ListProvider;
+	, ListProvider = require('./listProvider').ListProvider
+	, UserProvider = require('./userProvider').UserProvider;
 
 var app = express();
 
@@ -38,11 +40,24 @@ var exposeDb = function(req, resp, next){
 	next();
 };
 
+var userProvider = new UserProvider();
+userProvider.init('localhost', 27017);
+
+var userDb = function(req, resp, next){
+	req.userProvider = userProvider;
+	next();
+};
+
 /*
  * Routes
  */
 // Index
-app.get('/', exposeDb, routes.index);
+app.get('/', userRoutes.loginForm);
+// Login post
+app.post('/', userDb, userRoutes.logUserIn);
+
+// Show lists
+app.get('/lists', userRoutes.checkAuth, exposeDb, routes.index)
 // New list
 app.get('/list', routes.listForm);
 app.post('/list', exposeDb, routes.createList);
@@ -50,6 +65,9 @@ app.post('/list', exposeDb, routes.createList);
 app.get('/list/:id', exposeDb, routes.viewList);
 // Add item to list
 app.post('/list/:id', exposeDb, routes.addListItem);
+
+// logout
+app.get('/logout', userRoutes.logout);
 
 // Start the server
 http.createServer(app).listen(app.get('port'), function(){
