@@ -66,6 +66,9 @@ app.get('/list/:id', exposeDb, routes.viewList);
 // Add item to list
 app.post('/list/:id', exposeDb, routes.addListItem);
 
+// list items
+app.put('/list/:id/item/:itemId', exposeDb, routes.editListItem);
+
 // logout
 app.get('/logout', userRoutes.logout);
 

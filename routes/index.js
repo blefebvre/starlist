@@ -3,7 +3,7 @@
  */
 exports.index = function(req, res) {
 	var listProvider = req.listProvider;
-	listProvider.findAll( function(error,docs){
+	listProvider.findAll(req.session.userId, function(error,docs){
         res.render('index.jade', {
             title: 'starlist',
             lists: docs
@@ -19,22 +19,26 @@ exports.listForm = function(req, res) {
 
 exports.createList = function(req, res) {
 	var listProvider = req.listProvider;
-    listProvider.save({
-        title: req.param('title')
-    }, function( error, docs) {
-        res.redirect('/')
-    });
+	listProvider.save(
+		{
+			title: req.param('title'),
+			owner: req.session.userId
+		},
+		function( error, docs) {
+			res.redirect('/lists')
+	});
 };
 
 exports.viewList = function(req, res) {
 	var listProvider = req.listProvider;
-	listProvider.findById(req.params.id, function(error, list) {
+	listProvider.findById(req.params.id, req.session.userId, function(error, list) {
 		res.render('list_show.jade',
 		{
 			title: list.title,
 			list: list
 		});
 	});
+	
 };
 
 exports.addListItem = function(req, res) {
@@ -46,4 +50,14 @@ exports.addListItem = function(req, res) {
 			res.redirect('/list/' + req.param('_id'));
 		}
 	);
+};
+
+
+exports.editListItem = function(req, res) {
+	var listProvider = req.listProvider;
+	var listId = req.param('_id');
+	var listItemId = req.param('itemId');
+	listProvider.findById(req.params.id, function(error, list) {
+
+	});
 };

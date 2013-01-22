@@ -18,11 +18,11 @@ ListProvider.prototype.getCollection= function(callback) {
 	});
 };
 
-ListProvider.prototype.findAll = function(callback) {
+ListProvider.prototype.findAll = function(userId, callback) {
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			list_collection.find().toArray(function(error, results) {
+			list_collection.find({owner: userId}).toArray(function(error, results) {
 				if( error ) callback(error)
 				else callback(null, results)
 			});
@@ -31,11 +31,12 @@ ListProvider.prototype.findAll = function(callback) {
 };
 
 
-ListProvider.prototype.findById = function(id, callback) {
+ListProvider.prototype.findById = function(id, userId, callback) {
+	// todo: check permissions on the user
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			list_collection.findOne({_id: new ObjectID(id)}, function(error, result) {
+			list_collection.findOne({_id: new ObjectID(id), owner: userId}, function(error, result) {
 				if( error ) callback(error)
 				else callback(null, result)
 			});

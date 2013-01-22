@@ -30,4 +30,9 @@ UserProvider.prototype.findUser = function(userId, callback) {
 	});
 };
 
+/*
+UserProvider.prototype.findUserByObjectId = function(_id, callback) {
+
+};
+*/
 exports.UserProvider = UserProvider;
