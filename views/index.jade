@@ -9,4 +9,4 @@ block content
 		ol
 			- each list in lists
 					li
-						a(href="/list/"+list._id.toHexString())!= list.title
+						a(href="/list/"+list._id.toHexString())= list.title

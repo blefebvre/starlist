@@ -4,7 +4,8 @@ block content
 	h1= title
 	ul
 	- each item in list.items
-		li= item.content
+		li 
+			a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString())= item.content
 	form( method="post" )
 		div
 			input( type="hidden", name="_id", value=list._id.toHexString())

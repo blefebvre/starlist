@@ -6,8 +6,8 @@ var express = require('express')
 	, userRoutes = require('./routes/user')
 	, http = require('http')
 	, path = require('path')
-	, ListProvider = require('./listProvider').ListProvider
-	, UserProvider = require('./userProvider').UserProvider;
+	, ListProvider = require('./providers/listProvider').ListProvider
+	, UserProvider = require('./providers/userProvider').UserProvider;
 
 var app = express();
 
@@ -59,15 +59,16 @@ app.post('/', userDb, userRoutes.logUserIn);
 // Show lists
 app.get('/lists', userRoutes.checkAuth, exposeDb, routes.index)
 // New list
-app.get('/list', routes.listForm);
-app.post('/list', exposeDb, routes.createList);
+app.get('/list', userRoutes.checkAuth, routes.listForm);
+app.post('/list', userRoutes.checkAuth, exposeDb, routes.createList);
 // View list
-app.get('/list/:id', exposeDb, routes.viewList);
+app.get('/list/:id', userRoutes.checkAuth, exposeDb, routes.viewList);
 // Add item to list
-app.post('/list/:id', exposeDb, routes.addListItem);
+app.post('/list/:id', userRoutes.checkAuth, exposeDb, routes.addListItem);
 
 // list items
-app.put('/list/:id/item/:itemId', exposeDb, routes.editListItem);
+app.get('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.getListItem);
+app.put('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.editListItem);
 
 // logout
 app.get('/logout', userRoutes.logout);

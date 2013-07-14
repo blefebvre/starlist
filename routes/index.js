@@ -52,12 +52,28 @@ exports.addListItem = function(req, res) {
 	);
 };
 
+exports.getListItem = function(req, res) {
+	var listProvider = req.listProvider;
+	var listId = req.params.id;
+	var itemId = req.params.itemId;
+	listProvider.findListItemById(listId, itemId, req.session.userId, function(error, item) {
+		if (error) {
+			console.log(error);
+			res.redirect('/list/' + listId);
+		}
+		else {
+			res.render("list_item_show.jade", {title: "item", item: item});
+		}
+	});
+};
 
 exports.editListItem = function(req, res) {
+/*
 	var listProvider = req.listProvider;
-	var listId = req.param('_id');
-	var listItemId = req.param('itemId');
+	var listId = req.params.id;
+	var listItemId = req.params.itemId;
 	listProvider.findById(req.params.id, function(error, list) {
 
 	});
+*/
 };

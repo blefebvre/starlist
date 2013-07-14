@@ -44,6 +44,23 @@ ListProvider.prototype.findById = function(id, userId, callback) {
 	});
 };
 
+ListProvider.prototype.findListItemById = function(listId, itemId, userId, callback) {
+	this.findById(listId, userId, function(error, list) {
+		if( error ) callback(error);
+		else {
+			var itemObjectId = new ObjectID(itemId);
+			for (var i = 0; i < list.items.length; i++) {
+				var currentItem = list.items[i];
+				if (itemObjectId.equals(currentItem._id)) {
+					callback(null, currentItem);
+					return;
+				}
+			}
+			callback("could not find list item");
+		}
+	});
+};
+
 ListProvider.prototype.save = function(lists, callback) {
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
@@ -68,7 +85,7 @@ ListProvider.prototype.save = function(lists, callback) {
 };
 
 ListProvider.prototype.addItemToList = function(listId, listItem, callback) {
-	//listItem._id = new genObjectId();
+	listItem._id = new ObjectID();
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback( error );
 		else {
