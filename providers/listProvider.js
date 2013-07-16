@@ -16,8 +16,15 @@ ListProvider = function(app) {
 ListProvider.prototype.init = function() {
 	console.log("connecting to " + this.host + "/" + this.dbName + " port:" + this.port);
 	var self = this;
-	MongoClient.connect("mongodb://" + this.username + ":" + this.password + "@" + this.host + ":" + this.port + "/" + this.dbName, function(err, db) {
-		if (err) return callback (err);
+	var connectionString = this.host + ":" + this.port + "/" + this.dbName;
+	if (this.username) {
+		connectionString = this.username + ":" + this.password + "@" + connectionString;
+	}
+	MongoClient.connect("mongodb://" + connectionString, function(err, db) {
+		if (err) {
+			// todo: error handling
+			console.log(err);
+		}
 		else {
 			self.db = db;
 		}
