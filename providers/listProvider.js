@@ -1,4 +1,5 @@
 var Db = require('mongodb').Db;
+var MongoClient = require('mongodb').MongoClient;
 var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
 var ObjectID = require('mongodb').ObjectID;
@@ -14,19 +15,11 @@ ListProvider = function(app) {
 
 ListProvider.prototype.init = function() {
 	console.log("connecting to " + this.host + "/" + this.dbName + " port:" + this.port);
-	this.db = new Db(this.dbName, new Server(this.host, this.port, {auto_reconnect: true}), {fsync: true});
-	this.db.open(function(){
-		if (this.username) {
-			this.db.authenticate(this.username, this.password, function(err, result) {
-				if (err) return callback (err);
-				if (result) {
-					// Success
-					console.log("Connected to db " + this.dbName);
-				}
-				else {
-					return callback (new Error('authentication failed'));
-				}
-			});
+	var self = this;
+	MongoClient.connect("mongodb://" + this.username + ":" + this.password + "@" + this.host + ":" + this.port + "/" + this.dbName, function(err, db) {
+		if (err) return callback (err);
+		else {
+			self.db = db;
 		}
 	});
 };
