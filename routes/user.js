@@ -22,6 +22,7 @@ exports.logUserIn = function(req, res) {
 			backToLogin("try again", res);
 		}
 		else {
+			console.log("authenticating user " + username + "...");
 			// check for a valid password
 			bcrypt.compare(password, user.password, function(err, result) {
 				if (result === true) {

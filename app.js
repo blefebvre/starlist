@@ -19,20 +19,31 @@ app.configure(function(){
 	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-	app.use(express.cookieParser('top secret sl code'));
+	app.use(express.cookieParser(process.env.COOKIE_PARSER || 'starlist'));
 	app.use(express.session());
 	app.use(app.router);
 	app.use(require('stylus').middleware(__dirname + '/public'));
 	app.use(express.static(path.join(__dirname, 'public')));
+
+	// Db config
+	app.set("dbName", process.env.DB_NAME || "starlist");
+	app.set("dbHost", process.env.DB_HOST || "localhost");
+	app.set("dbPort", process.env.DB_PORT || 27017);
+	app.set("dbUsername", process.env.DB_USERNAME || null);
+	app.set("dbPassword", process.env.DB_PASSWORD || null);
 });
 
-app.configure('development', function(){
+app.configure('development', function() {
+	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function() {
 	app.use(express.errorHandler());
 });
 
 // Configure db access
-var listProvider = new ListProvider();
-listProvider.init('localhost', 27017);
+var listProvider = new ListProvider(app);
+listProvider.init();
 
 // route specific middleware - expose the database to routes
 var exposeDb = function(req, resp, next){
@@ -40,8 +51,8 @@ var exposeDb = function(req, resp, next){
 	next();
 };
 
-var userProvider = new UserProvider();
-userProvider.init('localhost', 27017);
+var userProvider = new UserProvider(app);
+userProvider.init();
 
 var userDb = function(req, resp, next){
 	req.userProvider = userProvider;

@@ -3,11 +3,32 @@ var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
 var ObjectID = require('mongodb').ObjectID;
 
-ListProvider = function() {};
+// todo: reuse connection
+ListProvider = function(app) {
+	this.dbName = app.get("dbName");
+	this.host = app.get("dbHost");
+	this.port = parseInt(app.get("dbPort"));
+	this.username = app.get("dbUsername");
+	this.password = app.get("dbPassword");
+};
 
-ListProvider.prototype.init = function(host, port) {
-	this.db= new Db('starlist', new Server(host, port, {auto_reconnect: true}), {fsync: true});
-	this.db.open(function(){});
+ListProvider.prototype.init = function() {
+	console.log("connecting to " + this.host + "/" + this.dbName + " port:" + this.port);
+	this.db = new Db(this.dbName, new Server(this.host, this.port, {auto_reconnect: true}), {fsync: true});
+	this.db.open(function(){
+		if (this.username) {
+			this.db.authenticate(this.username, this.password, function(err, result) {
+				if (err) return callback (err);
+				if (result) {
+					// Success
+					console.log("Connected to db " + this.dbName);
+				}
+				else {
+					return callback (new Error('authentication failed'));
+				}
+			});
+		}
+	});
 };
 
 

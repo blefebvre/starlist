@@ -1,15 +1,19 @@
 {
   "name": "starlist",
-  "version": "0.0.1",
+  "version": "0.0.1-7",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "3.0.5",
     "jade": "0.27.7",
     "stylus": "0.31.0",
     "mongodb": "1.2.7",
-    "bcrypt": "0.7.3"
+    "bcrypt": "0.7.6"
+  },
+  "subdomain": "starlist",
+  "engines": {
+    "node": "0.8.x"
   }
 }
