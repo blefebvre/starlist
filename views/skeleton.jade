@@ -3,7 +3,7 @@ html
 	head
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		title= title
+		link(rel='stylesheet', href='/stylesheets/topcoat-mobile-light.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
-	body
-		a(href='/logout', id="logout") logout
-		block content
+		block headextra
+	block body

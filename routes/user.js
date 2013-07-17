@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt');
 
 exports.loginForm = function(req, res) {
 	res.render('login_form.jade', {
-		title: 'login'
+		title: 'starlist'
 	});
 };
 
