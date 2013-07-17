@@ -10,11 +10,11 @@ block body
 			- if (typeof(message) !== 'undefined') {
 				h3= message
 			-}
-		form( method="post" )
+		form.login( method="post" )
 			div
 				div
-					input.topcoat-text-input(type="text", autocapitalize="off", autocorrect="off", name="user[name]", autofocus="autofocus", placeholder="username")
+					input.topcoat-text-input.full(type="text", autocapitalize="off", autocorrect="off", name="user[name]", autofocus="autofocus", placeholder="username")
 				div
-					input.topcoat-text-input(type="password", name="user[password]", placeholder="password")
+					input.topcoat-text-input.full(type="password", name="user[password]", placeholder="password")
 				div
-					input.topcoat-button--cta(type="submit", value="login")
+					button.topcoat-button--cta(type="submit") login
