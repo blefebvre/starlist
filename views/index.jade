@@ -1,12 +1,12 @@
 extends body
 
 block content
-	h1= title
 	p Welcome to #{title}
 	a(href='/list') New List
 
 	#lists
-		ol
+		div.topcoat-list__container
+			ul.topcoat-list
 			- each list in lists
-					li
-						a(href="/list/"+list._id.toHexString())= list.title
+				li.topcoat-list__item
+					a(href="/list/"+list._id.toHexString())= list.title

@@ -1,6 +1,26 @@
 extends skeleton
 
+block headextra
+	script
+		window.addEventListener('load', function() {
+			FastClick.attach(document.body);
+			var starlist = new Starlist();
+			starlist.initNav('menuIcon', 'menu');
+		}, false);
+
 block body
 	body
-		a(href='/logout', id="logout") logout
+		nav#menu(role='navigation')
+			ul
+				li new list
+				li logout
+
+		div.topcoat-navigation-bar
+			div.topcoat-navigation-bar__item.left.quarter
+			div.topcoat-navigation-bar__item.center.half
+				h1.topcoat-navigation-bar__title= title
+			div.topcoat-navigation-bar__item.right.quarter
+				a.topcoat-icon-button--quiet#menuIcon
+					span.topcoat-icon.topcoat-icon--menu-stack
+
 		block content

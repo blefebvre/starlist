@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 
 exports.listForm = function(req, res) {
 	res.render('list_form.jade', {
-        title: 'New Post'
+        title: 'New List'
     });
 };
 
