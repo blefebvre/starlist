@@ -2,38 +2,40 @@ var Starlist = function() {};
 
 Starlist.prototype.initNav = function(menuElementId, navElementId, backButtonId) {
 	if (menuElementId && navElementId) {
-        var menuElement = document.getElementById(menuElementId);
-    	var navElement = document.getElementById(navElementId);
-    	menuElement.onclick = function() {
-    		Util.toggleClass(navElement, "active");
-    	};
-    }
+		var menuElement = document.getElementById(menuElementId);
+		var navElement = document.getElementById(navElementId);
+		menuElement.onclick = function() {
+			Util.toggleClass(navElement, "active");
+		};
+	}
 
-    if (backButtonId) {
-        var backButton = document.getElementById(backButtonId);
-        backButton.onclick = function() {
-            history.back();
-        };
-    }
+	if (backButtonId) {
+		var backButton = document.getElementById(backButtonId);
+		if (backButton) {
+			backButton.onclick = function() {
+				history.back();
+			};
+		}
+	}
 };
 
 /* Util methods from http://net.tutsplus.com/tutorials/javascript-ajax/from-jquery-to-javascript-a-reference/ */
 var Util = {
 	hasClass: function (el, cl) {
-        var regex = new RegExp('(?:\\s|^)' + cl + '(?:\\s|$)');
-        return !!el.className.match(regex);
-    },
+		var regex = new RegExp('(?:\\s|^)' + cl + '(?:\\s|$)');
+		return !!el.className.match(regex);
+	},
  
-    addClass: function (el, cl) {
-        el.className += ' ' + cl;
-    },
+	addClass: function (el, cl) {
+		el.className += ' ' + cl;
+	},
  
-    removeClass: function (el, cl) {
-        var regex = new RegExp('(?:\\s|^)' + cl + '(?:\\s|$)');
-        el.className = el.className.replace(regex, ' ');
-    },
+	removeClass: function (el, cl) {
+		var regex = new RegExp('(?:\\s|^)' + cl + '(?:\\s|$)');
+		el.className = el.className.replace(regex, ' ');
+	},
  
-    toggleClass: function (el, cl) {
-        this.hasClass(el, cl) ? this.removeClass(el, cl) : this.addClass(el, cl);
-    }
+	toggleClass: function (el, cl) {
+		this.hasClass(el, cl) ? this.removeClass(el, cl) : this.addClass(el, cl);
+	}
 }

@@ -1,14 +1,15 @@
 extends body
 
 block content
-	ul
-	- each item in list.items
-		li 
-			a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString())= item.content
+	div.topcoat-list__container
+		ul.topcoat-list
+		- each item in list.items
+			li.topcoat-list__item.starlist-list-item
+				button.topcoat-icon-button--quiet.starlist-checkbox
+					span.topcoat-icon.topcoat-icon--checkbox-unchecked
+				a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString())= item.content
 	form( method="post" )
 		div
-			input( type="hidden", name="_id", value=list._id.toHexString())
-			label(for="content") New: 
-			input(type="text", name="content", autofocus="autofocus")
-		div
-			input(type="submit", value="Add")
+			input(type="hidden", name="_id", value=list._id.toHexString())
+			input.topcoat-text-input(type="text", name="content", placeholder="new item", autofocus="autofocus")
+			button.topcoat-button--cta(type="submit") add
