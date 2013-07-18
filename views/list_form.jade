@@ -4,7 +4,5 @@ block content
 	form( method="post" )
 		div
 			div
-				span Title :
-				input(type="text", name="title", autofocus="autofocus")
-			div
-				input(type="submit", value="Create")
+				input.topcoat-text-input(type="text", name="title", placeholder="list name", autofocus="autofocus")
+				button.topcoat-button--cta(type="submit") create
