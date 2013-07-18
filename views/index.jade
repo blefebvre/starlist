@@ -3,11 +3,12 @@ extends body
 block backButton
 
 block content
-	p Welcome to #{title}
 
 	#lists
 		div.topcoat-list__container
-			ul.topcoat-list
+			h3.topcoat-list__header hi, welcome to #{title}
+			ul.topcoat-list 
+
 			- each list in lists
 				li.topcoat-list__item
 					a(href="/list/"+list._id.toHexString())= list.title
