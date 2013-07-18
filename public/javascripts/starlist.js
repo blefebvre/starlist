@@ -1,11 +1,20 @@
 var Starlist = function() {};
 
-Starlist.prototype.initNav = function(menuElementId, navElementId) {
-	var menuElement = document.getElementById(menuElementId);
-	var navElement = document.getElementById(navElementId);
-	menuElement.onclick = function() {
-		Util.toggleClass(navElement, "active");
-	};
+Starlist.prototype.initNav = function(menuElementId, navElementId, backButtonId) {
+	if (menuElementId && navElementId) {
+        var menuElement = document.getElementById(menuElementId);
+    	var navElement = document.getElementById(navElementId);
+    	menuElement.onclick = function() {
+    		Util.toggleClass(navElement, "active");
+    	};
+    }
+
+    if (backButtonId) {
+        var backButton = document.getElementById(backButtonId);
+        backButton.onclick = function() {
+            history.back();
+        };
+    }
 };
 
 /* Util methods from http://net.tutsplus.com/tutorials/javascript-ajax/from-jquery-to-javascript-a-reference/ */

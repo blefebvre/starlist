@@ -15,7 +15,6 @@ nav[role=navigation].active {
 nav[role=navigation] ul {
 	margin: 0;
 	padding: 0;
-	border-top: 1px solid #808080;
 }
 nav[role=navigation] li a {
 	display: block;

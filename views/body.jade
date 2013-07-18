@@ -5,20 +5,26 @@ block headextra
 		window.addEventListener('load', function() {
 			FastClick.attach(document.body);
 			var starlist = new Starlist();
-			starlist.initNav('menuIcon', 'menu');
+			starlist.initNav('menuIcon', 'menu', 'backButton');
 		}, false);
 
 block body
 	body
 		nav#menu(role='navigation')
 			ul
-				li new list
-				li logout
+				li 
+					a(href='/list') new list
+				li 
+					a(href='/logout') logout
 
 		div.topcoat-navigation-bar
 			div.topcoat-navigation-bar__item.left.quarter
+				block backButton
+					a#backButton.topcoat-icon-button--quiet back
+
 			div.topcoat-navigation-bar__item.center.half
 				h1.topcoat-navigation-bar__title= title
+
 			div.topcoat-navigation-bar__item.right.quarter
 				a.topcoat-icon-button--quiet#menuIcon
 					span.topcoat-icon.topcoat-icon--menu-stack

@@ -2,3 +2,5 @@ node_modules/
 *.sublime-project
 *.sublime-workspace
 mongo.txt
+.DS_Store
+public/stylesheets/style.css
