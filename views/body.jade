@@ -5,7 +5,7 @@ block headextra
 		window.addEventListener('load', function() {
 			FastClick.attach(document.body);
 			var starlist = new Starlist();
-			starlist.initNav('menuIcon', 'menu', 'backButton');
+			starlist.initNav('menuIcon', 'menu');
 		}, false);
 
 block body
@@ -20,7 +20,7 @@ block body
 		div.topcoat-navigation-bar
 			div.topcoat-navigation-bar__item.left.quarter
 				block backButton
-					a#backButton.topcoat-icon-button--quiet back
+					a#backButton.topcoat-icon-button--quiet(href="/lists") back
 
 			div.topcoat-navigation-bar__item.center.half
 				h1.topcoat-navigation-bar__title= title

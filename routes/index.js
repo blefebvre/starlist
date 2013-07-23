@@ -62,7 +62,8 @@ exports.getListItem = function(req, res) {
 			res.redirect('/list/' + listId);
 		}
 		else {
-			res.render("list_item_show.jade", {title: "item", item: item});
+			res.render("list_item_show.jade", 
+				{title: "item", item: item, listId: listId});
 		}
 	});
 };
@@ -77,3 +78,15 @@ exports.editListItem = function(req, res) {
 	});
 */
 };
+
+exports.toggleListItemDoneStatus = function(req, res) {
+	var listProvider = req.listProvider;
+	var listId = req.params.id;
+	var itemId = req.params.itemId;
+	listProvider.toggleListItemStatus(listId, itemId, req.session.userId, function(error, list) {
+		if (error) {
+			console.log(error);
+		}
+		res.redirect('/list/' + listId);
+	})
+}

@@ -53,7 +53,7 @@ ListProvider.prototype.findAll = function(userId, callback) {
 
 
 ListProvider.prototype.findById = function(id, userId, callback) {
-	// todo: check permissions on the user
+	// todo: handle shared lists
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
@@ -82,24 +82,18 @@ ListProvider.prototype.findListItemById = function(listId, itemId, userId, callb
 	});
 };
 
-ListProvider.prototype.save = function(lists, callback) {
+ListProvider.prototype.save = function(newList, callback) {
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			if( Object.prototype.toString.call( lists ) !== '[object Array]' )
-				lists = [lists];
-
-			for( var i =0; i< lists.length; i++ ) {
-				var list = lists[i];
-				list.created_at = new Date();
-				if( typeof list.items === "undefined" ) list.items = [];
-				for( var j =0; j< list.items.length; j++) {
-					list.items[j].created_at = new Date();
-				}
+			newList.created_at = new Date();
+			if( typeof newList.items === "undefined" ) newList.items = [];
+			for( var j =0; j < newList.items.length; j++) {
+				newList.items[j].created_at = new Date();
 			}
 
-			list_collection.insert(lists, function() {
-				callback(null, lists);
+			list_collection.insert(newList, function() {
+				callback(null, newList);
 			});
 		}
 	});
@@ -120,6 +114,39 @@ ListProvider.prototype.addItemToList = function(listId, listItem, callback) {
 			);
 		}
 	});
+};
+
+ListProvider.prototype.toggleListItemStatus = function(listId, listItemId, userId, callback) {
+	// todo: check permission
+	// if (this.hasPermissionToEditList)
+	var self = this;
+	var listItem;
+	self.findListItemById(listId, listItemId, userId, function(error, item) {
+		if ( error ) callback( error );
+		else {
+			listItem = item;
+			self.getCollection(function(error, list_collection) {
+				if( error ) callback( error );
+				else {
+					var listObjectId = new ObjectID(listId);
+					var listItemObjectId = new ObjectID(listItemId);
+					var newStatus = (listItem.done === undefined || listItem.done === false);
+					console.log("updating the list [" + listId + "] itemId [" + listItemId + "] to done status: " + newStatus);
+					
+					list_collection.update(
+						{"_id": listObjectId, "items._id": listItemObjectId},
+						{ $set: { "items.$.done": newStatus}},
+						function(error, list) {
+							if( error ) callback(error);
+							else callback(null, list)
+						}
+					);
+				}
+			});
+		}
+	});
+
+	
 };
 
 exports.ListProvider = ListProvider;

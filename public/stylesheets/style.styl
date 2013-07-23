@@ -7,8 +7,8 @@ a
 	list-style: none
 
 .topcoat-list__item a
-	display: inline-block
-	padding: 1.25rem
+	display: block
+	padding: 1.1rem
 
 a.topcoat-icon-button--quiet 
 	display: inline-block
@@ -27,16 +27,27 @@ form.login
 	max-width: 19.375em /* 310 / 16 */
 
 /* custom checkbox icon buttons */
-.topcoat-icon--checkbox-unchecked {
-	background: url("../img/checkbox_unchecked.png") no-repeat;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	background-size: cover;
-}
+.topcoat-icon--checkbox-unchecked
+	background: url("../img/checkbox_unchecked.png") no-repeat
+	-webkit-background-size: cover
+	-moz-background-size: cover
+	background-size: cover
 
-.topcoat-icon--checkbox-checked {
-	background: url("../img/checkbox_checked.png") no-repeat;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	background-size: cover;
-}
+.topcoat-icon--checkbox-checked
+	background: url("../img/checkbox_checked.png") no-repeat
+	-webkit-background-size: cover
+	-moz-background-size: cover
+	background-size: cover
+
+.checkbox-fixed-box
+	float: left
+	width 3.7em
+
+.list-item-fluid-box
+	width: 100%
+	float: left
+	margin-left: -3.7em
+
+.list-item-inner
+	margin-left: 3.7em
+	

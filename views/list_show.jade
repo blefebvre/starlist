@@ -5,9 +5,14 @@ block content
 		ul.topcoat-list
 		- each item in list.items
 			li.topcoat-list__item.starlist-list-item
-				button.topcoat-icon-button--quiet.starlist-checkbox
-					span.topcoat-icon.topcoat-icon--checkbox-unchecked
-				a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString())= item.content
+				div.checkbox-fixed-box
+					form(method="post", action="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString() + "/status")
+						button.topcoat-icon-button--quiet.starlist-checkbox(type="submit")
+							- var checkboxClass = (item.done) ? "topcoat-icon--checkbox-checked" : "topcoat-icon--checkbox-unchecked";
+							span.topcoat-icon(class=checkboxClass)
+				div.list-item-fluid-box
+					div.list-item-inner
+						a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString())= item.content
 	form( method="post" )
 		div
 			input(type="hidden", name="_id", value=list._id.toHexString())

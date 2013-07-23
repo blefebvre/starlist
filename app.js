@@ -80,6 +80,7 @@ app.post('/list/:id', userRoutes.checkAuth, exposeDb, routes.addListItem);
 // list items
 app.get('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.getListItem);
 app.put('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.editListItem);
+app.post('/list/:id/item/:itemId/status', userRoutes.checkAuth, exposeDb, routes.toggleListItemDoneStatus);
 
 // logout
 app.get('/logout', userRoutes.logout);
