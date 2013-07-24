@@ -43,7 +43,7 @@ ListProvider.prototype.findAll = function(userId, callback) {
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			list_collection.find({owner: userId}).toArray(function(error, results) {
+			list_collection.find({$or: [ {owner: userId}, {shared: userId} ] }).toArray(function(error, results) {
 				if( error ) callback(error)
 				else callback(null, results)
 			});
@@ -51,13 +51,32 @@ ListProvider.prototype.findAll = function(userId, callback) {
 	});
 };
 
+/*
+ * Return an object used to query for a list with the given ObjectID,
+ * and either owned by or shared with the given userId.
+ */
+ListProvider.prototype.getListQueryObject = function(listId, userId) {
+	return {$and: 
+				[
+					{"_id": new ObjectID(listId)}, 
+					{$or: 
+						[
+							{"owner": userId}, 
+							{"shared": userId}
+						]
+					}
+				] 
+			};
+};
 
-ListProvider.prototype.findById = function(id, userId, callback) {
-	// todo: handle shared lists
+ListProvider.prototype.findById = function(listId, userId, callback) {
+	var queryObject = this.getListQueryObject(listId, userId);
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			list_collection.findOne({_id: new ObjectID(id), owner: userId}, function(error, result) {
+			list_collection.findOne(
+				queryObject, 
+				function(error, result) {
 				if( error ) callback(error)
 				else callback(null, result)
 			});
@@ -99,13 +118,14 @@ ListProvider.prototype.save = function(newList, callback) {
 	});
 };
 
-ListProvider.prototype.addItemToList = function(listId, listItem, callback) {
-	listItem._id = new ObjectID();
+ListProvider.prototype.addItemToList = function(listId, userId, listItem, callback) {
+	var queryObject = this.getListQueryObject(listId, userId);
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback( error );
 		else {
+			listItem._id = new ObjectID();
 			list_collection.update(
-				{_id: new ObjectID(listId)},
+				queryObject,
 				{"$push": {items: listItem}},
 				function(error, list){
 					if( error ) callback(error);
@@ -117,8 +137,6 @@ ListProvider.prototype.addItemToList = function(listId, listItem, callback) {
 };
 
 ListProvider.prototype.toggleListItemStatus = function(listId, listItemId, userId, callback) {
-	// todo: check permission
-	// if (this.hasPermissionToEditList)
 	var self = this;
 	var listItem;
 	self.findListItemById(listId, listItemId, userId, function(error, item) {
@@ -133,6 +151,7 @@ ListProvider.prototype.toggleListItemStatus = function(listId, listItemId, userI
 					var newStatus = (listItem.done === undefined || listItem.done === false);
 					console.log("updating the list [" + listId + "] itemId [" + listItemId + "] to done status: " + newStatus);
 					
+					// Permissions have been checked above by findListItemById
 					list_collection.update(
 						{"_id": listObjectId, "items._id": listItemObjectId},
 						{ $set: { "items.$.done": newStatus}},

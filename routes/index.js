@@ -43,7 +43,7 @@ exports.viewList = function(req, res) {
 
 exports.addListItem = function(req, res) {
 	var listProvider = req.listProvider;
-	listProvider.addItemToList(req.param('_id'), {
+	listProvider.addItemToList(req.param('_id'), req.session.userId, {
 			content: req.param('content'),
 			created_at: new Date()
 		}, function( error, list ) {
