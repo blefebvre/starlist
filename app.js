@@ -2,12 +2,19 @@
  * Module dependencies.
  */
 var express = require('express')
+	, MongoStore = require('connect-mongo')(express)
 	, routes = require('./routes')
 	, userRoutes = require('./routes/user')
 	, http = require('http')
 	, path = require('path')
 	, ListProvider = require('./providers/listProvider').ListProvider
 	, UserProvider = require('./providers/userProvider').UserProvider;
+
+/**
+ * Config
+ */
+var cookieSecret = process.env.COOKIE_PARSER || 'starlist'
+	, dbConnectionUrl = process.env.DB_CONNECTION_URL || 'mongodb://localhost:27017/starlist';
 
 var app = express();
 
@@ -19,18 +26,16 @@ app.configure(function(){
 	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-	app.use(express.cookieParser(process.env.COOKIE_PARSER || 'starlist'));
-	app.use(express.session());
+	app.use(express.cookieParser(cookieSecret));
+	app.use(express.session({
+		secret: cookieSecret,
+		store: new MongoStore({
+			url: dbConnectionUrl
+		})
+	}));
 	app.use(app.router);
 	app.use(require('stylus').middleware(__dirname + '/public'));
 	app.use(express.static(path.join(__dirname, 'public')));
-
-	// Db config
-	app.set("dbName", process.env.DB_NAME || "starlist");
-	app.set("dbHost", process.env.DB_HOST || "localhost");
-	app.set("dbPort", process.env.DB_PORT || 27017);
-	app.set("dbUsername", process.env.DB_USERNAME || null);
-	app.set("dbPassword", process.env.DB_PASSWORD || null);
 });
 
 app.configure('development', function() {
@@ -42,7 +47,7 @@ app.configure('production', function() {
 });
 
 // Configure db access
-var listProvider = new ListProvider(app);
+var listProvider = new ListProvider(dbConnectionUrl);
 listProvider.init();
 
 // route specific middleware - expose the database to routes
@@ -51,7 +56,7 @@ var exposeDb = function(req, resp, next){
 	next();
 };
 
-var userProvider = new UserProvider(app);
+var userProvider = new UserProvider(dbConnectionUrl);
 userProvider.init();
 
 var userDb = function(req, resp, next){

@@ -5,22 +5,14 @@ var Server = require('mongodb').Server;
 var ObjectID = require('mongodb').ObjectID;
 
 // todo: reuse connection
-ListProvider = function(app) {
-	this.dbName = app.get("dbName");
-	this.host = app.get("dbHost");
-	this.port = parseInt(app.get("dbPort"));
-	this.username = app.get("dbUsername");
-	this.password = app.get("dbPassword");
+ListProvider = function(dbConnectionUrl) {
+	this.dbConnectionUrl = dbConnectionUrl;
 };
 
 ListProvider.prototype.init = function() {
-	console.log("connecting to " + this.host + "/" + this.dbName + " port:" + this.port);
+	console.log("ListProvider connecting to db...");
 	var self = this;
-	var connectionString = this.host + ":" + this.port + "/" + this.dbName;
-	if (this.username) {
-		connectionString = this.username + ":" + this.password + "@" + connectionString;
-	}
-	MongoClient.connect("mongodb://" + connectionString, function(err, db) {
+	MongoClient.connect(this.dbConnectionUrl, function(err, db) {
 		if (err) {
 			// todo: error handling
 			console.log(err);
