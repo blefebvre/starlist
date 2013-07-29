@@ -4,7 +4,7 @@ block content
 	div.topcoat-list__container
 		ul.topcoat-list
 		- each item in list.items
-			li.topcoat-list__item.starlist-list-item
+			li.topcoat-list__item.starlist-list-item.container
 				div.checkbox-fixed-box
 					form(method="post", action="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString() + "/status")
 						button.topcoat-icon-button--quiet.starlist-checkbox(type="submit")
