@@ -55,8 +55,7 @@ exports.logout = function(req, res) {
 
 exports.checkAuth = function(req, res, next) {
 	if (!req.session.userId) {
-		// TODO: send back to login
-		res.send('You are not authorized to view this page');
+		res.redirect('/');
 	} else {
 		next();
 	}
