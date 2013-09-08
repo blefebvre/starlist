@@ -166,7 +166,7 @@ ListProvider.prototype.updateListItemContent = function(listId, listItemId, user
 			self.getCollection(function(error, list_collection) {
 				if( error ) callback( error );
 				else {
-					console.log("updating the list [" + listId + "] itemId [" + listItemId + "] with new content: [" + updatedContent + "].");
+					console.log("user [" + userId + "] is updating the list [" + listId + "] itemId [" + listItemId + "] with new content: [" + updatedContent + "].");
 					var listObjectId = new ObjectID(listId);
 					var listItemObjectId = new ObjectID(listItemId);
 					list_collection.update(
