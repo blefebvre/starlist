@@ -86,6 +86,7 @@ app.post('/list/:id', userRoutes.checkAuth, exposeDb, routes.addListItem);
 app.get('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.getListItem);
 app.post('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.editListItem);
 app.post('/list/:id/item/:itemId/status', userRoutes.checkAuth, exposeDb, routes.toggleListItemDoneStatus);
+app.post('/list/:id/item/:itemId/delete', userRoutes.checkAuth, exposeDb, routes.deleteListItem);
 
 // logout
 app.get('/logout', userRoutes.logout);

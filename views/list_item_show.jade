@@ -1,10 +1,14 @@
 extends body
 
 block backButton
-	a#backButton.topcoat-icon-button--quiet(href="/list/" + listId) back
+	a#backButton.topcoat-icon-button--quiet(href="/list/" + listId + "/") back
 
 block content
 	form( method="post" )
 		div
 			input.topcoat-text-input(type="text", name="updatedContent", value=item.content, autofocus="autofocus")
 			button.topcoat-button--cta(type="submit") update
+
+	form( method="post", action="delete" )
+		div
+			button.topcoat-button(type="submit") delete

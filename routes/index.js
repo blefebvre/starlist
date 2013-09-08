@@ -25,7 +25,7 @@ exports.createList = function(req, res) {
 			owner: req.session.userId
 		},
 		function( error, docs) {
-			res.redirect('/lists')
+			res.redirect('/lists/');
 	});
 };
 
@@ -47,7 +47,7 @@ exports.addListItem = function(req, res) {
 			content: req.param('content'),
 			created_at: new Date()
 		}, function( error, list ) {
-			res.redirect('/list/' + req.param('_id'));
+			res.redirect('/list/' + req.param('_id') + '/');
 		}
 	);
 };
@@ -59,7 +59,7 @@ exports.getListItem = function(req, res) {
 	listProvider.findListItemById(listId, itemId, req.session.userId, function(error, item) {
 		if (error) {
 			console.log(error);
-			res.redirect('/list/' + listId);
+			res.redirect('/list/' + listId + '/');
 		}
 		else {
 			res.render("list_item_show.jade", 
@@ -76,7 +76,7 @@ exports.editListItem = function(req, res) {
 		if (error) {
 			console.log(error);
 		}
-		res.redirect('/list/' + listId);
+		res.redirect('/list/' + listId + '/');
 	});
 };
 
@@ -88,6 +88,17 @@ exports.toggleListItemDoneStatus = function(req, res) {
 		if (error) {
 			console.log(error);
 		}
-		res.redirect('/list/' + listId);
-	})
-}
+		res.redirect('/list/' + listId + '/');
+	});
+};
+
+exports.deleteListItem = function(req, res) {
+	var listProvider = req.listProvider;
+	var listId = req.params.id;
+	listProvider.deleteListItem(listId, req.params.itemId, req.session.userId, function(error, list) {
+		if (error) {
+			console.log(error);
+		}
+		res.redirect('/list/' + listId + '/');
+	});
+};

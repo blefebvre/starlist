@@ -166,7 +166,7 @@ ListProvider.prototype.updateListItemContent = function(listId, listItemId, user
 			self.getCollection(function(error, list_collection) {
 				if( error ) callback( error );
 				else {
-					console.log("user [" + userId + "] is updating the list [" + listId + "] itemId [" + listItemId + "] with new content: [" + updatedContent + "].");
+					console.info("UPDATE ITEM: user [" + userId + "] is updating the list [" + listId + "] itemId [" + listItemId + "] with new content: [" + updatedContent + "]");
 					var listObjectId = new ObjectID(listId);
 					var listItemObjectId = new ObjectID(listItemId);
 					list_collection.update(
@@ -179,6 +179,32 @@ ListProvider.prototype.updateListItemContent = function(listId, listItemId, user
 					);
 				}
 			});
+		}
+	});
+};
+
+ListProvider.prototype.deleteListItem = function(listId, listItemId, userId, callback) {
+	var self = this;
+	self.getCollection(function(error, list_collection) {
+		if ( error ) callback( error );
+		else {
+			console.info("DELETE ITEM: user [" + userId + "] is deleting from the list [" + listId + "] itemId [" + listItemId + "]");
+			var listObjectId = new ObjectID(listId);
+			var listItemObjectId = new ObjectID(listItemId);
+			list_collection.update(
+				{"_id": listObjectId},
+				{ 
+					$pull: { 
+						"items": {
+							"_id": listItemObjectId
+						}
+					}
+				},
+				function(error, list) {
+					if( error ) callback(error);
+					else callback(null, list)
+				}
+			);
 		}
 	});
 };

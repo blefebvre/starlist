@@ -12,7 +12,7 @@ block content
 							span.topcoat-icon(class=checkboxClass)
 				div.list-item-fluid-box
 					div.list-item-inner
-						a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString())= item.content
+						a(href="/list/" + list._id.toHexString() + "/item/" + item._id.toHexString() + "/")= item.content
 	form( method="post" )
 		div
 			input(type="hidden", name="_id", value=list._id.toHexString())
