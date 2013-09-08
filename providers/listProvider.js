@@ -156,8 +156,31 @@ ListProvider.prototype.toggleListItemStatus = function(listId, listItemId, userI
 			});
 		}
 	});
+};
 
-	
+ListProvider.prototype.updateListItemContent = function(listId, listItemId, userId, updatedContent, callback) {
+	var self = this;
+	self.findListItemById(listId, listItemId, userId, function(error, listItem) {
+		if ( error ) callback( error );
+		else {
+			self.getCollection(function(error, list_collection) {
+				if( error ) callback( error );
+				else {
+					console.log("updating the list [" + listId + "] itemId [" + listItemId + "] with new content: [" + updatedContent + "].");
+					var listObjectId = new ObjectID(listId);
+					var listItemObjectId = new ObjectID(listItemId);
+					list_collection.update(
+						{"_id": listObjectId, "items._id": listItemObjectId},
+						{ $set: { "items.$.content": updatedContent}},
+						function(error, list) {
+							if( error ) callback(error);
+							else callback(null, list)
+						}
+					);
+				}
+			});
+		}
+	});
 };
 
 exports.ListProvider = ListProvider;

@@ -69,14 +69,15 @@ exports.getListItem = function(req, res) {
 };
 
 exports.editListItem = function(req, res) {
-/*
 	var listProvider = req.listProvider;
 	var listId = req.params.id;
-	var listItemId = req.params.itemId;
-	listProvider.findById(req.params.id, function(error, list) {
-
+	var itemId = req.params.itemId;
+	listProvider.updateListItemContent(listId, itemId, req.session.userId, req.param('updatedContent'), function(error, list) {
+		if (error) {
+			console.log(error);
+		}
+		res.redirect('/list/' + listId);
 	});
-*/
 };
 
 exports.toggleListItemDoneStatus = function(req, res) {
