@@ -49,11 +49,16 @@ Insert your new user
 ### Sample list document
 
 	{
+		"_id": new ObjectID(),
 		"title": "A new list",
 		"owner": "b",
 		"created_at": new Date(),
+		"shared_with": [ 
+			"d"
+		],
 		"items" : [ 	
 			{ 	
+				"_id": new ObjectID(),
 				"content" : "Item #1", 	
 				"created_at" : new Date(),
 				"created_by": "b",
@@ -61,6 +66,7 @@ Insert your new user
 				"archived": false
 			}, 	
 			{ 	
+				"_id": new ObjectID(),
 				"content" : "Item #2!!", 	
 				"created_at" : new Date(),
 				"created_by": "d",
@@ -68,15 +74,13 @@ Insert your new user
 				"archived": false
 			}, 	
 			{ 	
+				"_id": new ObjectID(),
 				"content" : "<b>something else</b>", 	
 				"created_at" : new Date(),
 				"created_by": "b",
 				"completed": false,
 				"archived": false
 			} 
-		],
-		"shared_with": [ 
-			"d"
 		]
 	}
 
