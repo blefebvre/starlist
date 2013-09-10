@@ -84,6 +84,13 @@ Insert your new user
 		]
 	}
 
-And the same doc in a single line:
+### Sample user document
 
- 	{ "title": "A new list", "owner": "b", "created_at": new Date(), "items" : [ { "content" : "Item #1", "created_at" : new Date(), "created_by": "b", "completed": false, "archived": false }, { "content" : "Item #2!!", "created_at" : new Date(), "created_by": "d", "completed": false, "archived": false }, { "content" : "<b>something else</b>", "created_at" : new Date(), "created_by": "b", "completed": false, "archived": false } ], "shared_with": [ "d" ] }
+	{ 
+		"_id" : new ObjectID(), 
+		"userId" : "b",
+		"firstName" : "Bruce", 
+		"lastName" : "Lefebvre", 
+		"email" : "email@address.com",
+		"password" : "<bcrypt hashed password>" 
+	}
