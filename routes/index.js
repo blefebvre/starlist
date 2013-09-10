@@ -102,3 +102,14 @@ exports.deleteListItem = function(req, res) {
 		res.redirect('/list/' + listId + '/');
 	});
 };
+
+exports.shareListForm = function(req, res) {
+	res.render('share_list.jade', {
+        title: 'share list'
+    });
+};
+
+exports.shareList = function(req, res) {
+	// TODO: impl
+	res.redirect('/list/' + req.params.id + '/');
+};
