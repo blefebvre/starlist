@@ -35,7 +35,7 @@ ListProvider.prototype.findAll = function(userId, callback) {
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			list_collection.find({$or: [ {owner: userId}, {shared: userId} ] }).toArray(function(error, results) {
+			list_collection.find({$or: [ {owner: userId}, {shared_with: userId} ] }).toArray(function(error, results) {
 				if( error ) callback(error)
 				else callback(null, results)
 			});
@@ -201,6 +201,24 @@ ListProvider.prototype.deleteListItem = function(listId, listItemId, userId, cal
 					}
 				},
 				function(error, list) {
+					if( error ) callback(error);
+					else callback(null, list)
+				}
+			);
+		}
+	});
+};
+
+
+ListProvider.prototype.shareList = function(listId, userId, userToShareWith, callback) {
+	var queryObject = this.getListQueryObject(listId, userId);
+	this.getCollection(function(error, list_collection) {
+		if( error ) callback( error );
+		else {
+			list_collection.update(
+				queryObject,
+				{"$push": {shared_with: userToShareWith.userId}},
+				function(error, list){
 					if( error ) callback(error);
 					else callback(null, list)
 				}

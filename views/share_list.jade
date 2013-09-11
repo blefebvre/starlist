@@ -1,7 +1,11 @@
 extends body
 
 block content
+	- if (typeof(message) !== 'undefined') {
+		h3= message
+	-}
+
 	form( method="post" )
 		div
-			input.topcoat-text-input(type="email", name="emailOrUsername", placeholder="email or username", autofocus="autofocus")
+			input.topcoat-text-input(type="text", name="emailOrUsername", placeholder="email or username", autofocus="autofocus", autocapitalize="off")
 			button.topcoat-button--cta(type="submit") share

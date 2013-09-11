@@ -84,7 +84,7 @@ app.post('/list/:id', userRoutes.checkAuth, exposeDb, routes.addListItem);
 
 // Share list
 app.get('/list/:id/share', userRoutes.checkAuth, exposeDb, routes.shareListForm);
-app.post('/list/:id/share', userRoutes.checkAuth, exposeDb, routes.shareList);
+app.post('/list/:id/share', userRoutes.checkAuth, userDb, exposeDb, routes.shareList);
 
 // list items
 app.get('/list/:id/item/:itemId', userRoutes.checkAuth, exposeDb, routes.getListItem);

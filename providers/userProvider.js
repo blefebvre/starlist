@@ -36,17 +36,35 @@ UserProvider.prototype.findUser = function(userId, callback) {
 		else {
 			user_collection.findOne({userId: userId}, function(error, result) {
 				if( error ) callback(error);
-				else {
-					callback(null, result);
-				}
+				else callback(null, result);
 			});
 		}
 	});
 };
 
-/*
-UserProvider.prototype.findUserByObjectId = function(_id, callback) {
-
+UserProvider.prototype.findUserByIdOrEmail = function(userIdOrEmail, callback) {
+	console.info('Finding user: [' + userIdOrEmail + ']');
+	var self = this;
+	self.findUser(userIdOrEmail, function(error, user) {
+		if( error ) callback(error);
+		else {
+			if (user != null) {
+				callback(null, user);
+			}
+			else {
+				self.getCollection(function(error, user_collection) {
+					if( error ) callback(error)
+					else {
+						// Search for a user with this email address
+						console.info("No user with userId: [" + userIdOrEmail + "], finding by email");
+						user_collection.findOne({email: userIdOrEmail}, function(error, user) {
+							if( error || user === null) callback('user [' + userIdOrEmail + '] not found');
+							else callback(null, user);
+						});
+					}
+				});
+			}
+		}
+	});
 };
-*/
 exports.UserProvider = UserProvider;

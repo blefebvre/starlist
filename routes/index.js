@@ -110,6 +110,34 @@ exports.shareListForm = function(req, res) {
 };
 
 exports.shareList = function(req, res) {
-	// TODO: impl
-	res.redirect('/list/' + req.params.id + '/');
+	var userProvider = req.userProvider;
+	var listId = req.params.id;
+	var shareWith = req.param('emailOrUsername');
+	var userToShareWith = userProvider.findUserByIdOrEmail(shareWith, function(error, userToShareWith) {
+		if (error) {
+			console.log(error);
+			res.render('share_list.jade', {
+				title: 'share list',
+				message: 'user ' + shareWith + ' not found'
+			});
+		}
+		else {
+			var listProvider = req.listProvider;
+			listProvider.shareList(listId, req.session.userId, userToShareWith, function(error, list) {
+				if (error) {
+					console.log(error);
+					res.render('share_list.jade', {
+						title: 'share list',
+						message: 'unable to share list'
+					});
+				}
+				else {
+					res.render('share_list.jade', {
+						title: 'share list',
+						message: 'shared with ' + shareWith + '!'
+					});
+				}
+			});
+		}
+	});
 };
