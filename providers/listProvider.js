@@ -54,7 +54,7 @@ ListProvider.prototype.getListQueryObject = function(listId, userId) {
 					{$or: 
 						[
 							{"owner": userId}, 
-							{"shared": userId}
+							{"shared_with": userId}
 						]
 					}
 				] 

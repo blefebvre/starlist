@@ -105,7 +105,8 @@ exports.deleteListItem = function(req, res) {
 
 exports.shareListForm = function(req, res) {
 	res.render('share_list.jade', {
-        title: 'share list'
+        title: 'share list',
+        listId: req.params.id
     });
 };
 
@@ -118,7 +119,8 @@ exports.shareList = function(req, res) {
 			console.log(error);
 			res.render('share_list.jade', {
 				title: 'share list',
-				message: 'user ' + shareWith + ' not found'
+				message: 'user ' + shareWith + ' not found',
+        		listId: listId
 			});
 		}
 		else {
@@ -128,13 +130,15 @@ exports.shareList = function(req, res) {
 					console.log(error);
 					res.render('share_list.jade', {
 						title: 'share list',
-						message: 'unable to share list'
+						message: 'unable to share list',
+        				listId: listId
 					});
 				}
 				else {
 					res.render('share_list.jade', {
 						title: 'share list',
-						message: 'shared with ' + shareWith + '!'
+						message: 'shared with ' + shareWith + '!',
+        				listId: listId
 					});
 				}
 			});

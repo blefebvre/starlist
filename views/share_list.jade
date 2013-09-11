@@ -1,5 +1,8 @@
 extends body
 
+block backButton
+	a#backButton.topcoat-icon-button--quiet(href="/list/" + listId + "/") back
+
 block content
 	- if (typeof(message) !== 'undefined') {
 		h3= message
