@@ -44,7 +44,7 @@ Open the mongo shell and 'use' the starlist db
 
 Insert your new user
 
-	db.users.insert( {"userId": "b", "password": "<hash from previous step>", "firstName": "Bruce", "lastName": "Lefebvre" } );
+	db.users.insert( {"userId": "b", "password": "<hash from previous step>", "firstName": "Bruce", "lastName": "Lefebvre", "email": "<email>" } );
 
 ### Sample list document
 
