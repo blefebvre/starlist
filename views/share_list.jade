@@ -1,7 +1,7 @@
 extends body
 
 block backButton
-	a#backButton.topcoat-icon-button--quiet(href="/list/" + listId + "/") back
+	a#backButton.topcoat-icon-button--quiet(href="/list/" + list._id.toHexString() + "/") back
 
 block content
 	- if (typeof(message) !== 'undefined') {
@@ -12,3 +12,11 @@ block content
 		div
 			input.topcoat-text-input(type="text", name="emailOrUsername", placeholder="email or username", autofocus="autofocus", autocapitalize="off")
 			button.topcoat-button--cta(type="submit") share
+
+	div.topcoat-list__container
+		h3.topcoat-list__header #{list.title} is currently shared with:
+		ul.topcoat-list 
+			-if (list.shared_with) {
+				- each name in list.shared_with
+					li.topcoat-list__item.list= name
+			-}

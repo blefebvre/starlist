@@ -218,9 +218,9 @@ ListProvider.prototype.shareList = function(listId, userId, userToShareWith, cal
 			list_collection.update(
 				queryObject,
 				{"$push": {shared_with: userToShareWith.userId}},
-				function(error, list){
+				function(error, result) {
 					if( error ) callback(error);
-					else callback(null, list)
+					else callback(null, result);
 				}
 			);
 		}
