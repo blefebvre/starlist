@@ -2,13 +2,21 @@ extends body
 
 block backButton
 
+block headextra
+	script
+		window.addEventListener('load', function() {
+			FastClick.attach(document.body);
+			var starlist = new Starlist();
+			starlist.initNav('menuIcon', 'menu');
+			starlist.initDeleteList();
+		}, false);
+
 block content
 
 	#lists
 		div.topcoat-list__container
 			h3.topcoat-list__header hi, welcome to #{title}
 			ul.topcoat-list 
-
-			- each list in lists
-				li.topcoat-list__item
-					a(href="/list/"+list._id.toHexString() + "/")= list.title
+				- each list in lists
+					li.topcoat-list__item.list
+						a(href="/list/"+list._id.toHexString() + "/")= list.title

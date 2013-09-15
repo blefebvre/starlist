@@ -8,14 +8,25 @@ Starlist.prototype.initNav = function(menuElementId, navElementId, backButtonId)
 			Util.toggleClass(navElement, "active");
 		};
 	}
+};
 
-	if (backButtonId) {
-		var backButton = document.getElementById(backButtonId);
-		if (backButton) {
-			backButton.onclick = function() {
-				history.back();
-			};
-		}
+Starlist.prototype.initDeleteList = function() {
+	// Add swipe to show delete button for each list
+	var listItems = document.querySelectorAll(".list");
+	for (var i = 0; i < listItems.length; i++) {
+		var item = listItems[i];
+
+		Hammer(item).on("dragright", function(ev) {
+			// Stops page from scrolling while dragging right
+			ev.gesture.preventDefault();
+			// Only fire once
+			ev.gesture.stopDetect();
+			console.log('showing delete button!');
+		}).on("dragleft", function(ev) {
+			ev.gesture.preventDefault();
+			ev.gesture.stopDetect();
+			// TODO: hide delete button
+		});
 	}
 };
 
