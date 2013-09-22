@@ -38,6 +38,17 @@ exports.viewList = function(req, res) {
 			list: list
 		});
 	});
+};
+
+exports.hideList = function(req, res) {
+	var listProvider = req.listProvider;
+	listProvider.hideList(req.params.id, req.session.userId, function(error, list) {
+		res.render('list_show.jade',
+		{
+			title: list.title,
+			list: list
+		});
+	});
 	
 };
 

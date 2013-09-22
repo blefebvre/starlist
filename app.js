@@ -79,6 +79,8 @@ app.get('/list', userRoutes.checkAuth, routes.listForm);
 app.post('/list', userRoutes.checkAuth, exposeDb, routes.createList);
 // View list
 app.get('/list/:id', userRoutes.checkAuth, exposeDb, routes.viewList);
+// Hide list
+app.post('/list/:id/hide', userRoutes.checkAuth, exposeDb, routes.hideList);
 // Add item to list
 app.post('/list/:id', userRoutes.checkAuth, exposeDb, routes.addListItem);
 

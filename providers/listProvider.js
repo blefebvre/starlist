@@ -35,7 +35,23 @@ ListProvider.prototype.findAll = function(userId, callback) {
 	this.getCollection(function(error, list_collection) {
 		if( error ) callback(error)
 		else {
-			list_collection.find({$or: [ {owner: userId}, {shared_with: userId} ] }).toArray(function(error, results) {
+			list_collection.find(
+				{
+					$and: [
+						{
+							$or: [ 
+								{owner: userId}, 
+								{shared_with: userId} 
+							]
+						},
+						{
+							hidden: { 
+								$exists: false
+							}
+						}
+					]
+				}
+			).toArray(function(error, results) {
 				if( error ) callback(error)
 				else callback(null, results)
 			});
@@ -106,6 +122,23 @@ ListProvider.prototype.save = function(newList, callback) {
 			list_collection.insert(newList, function() {
 				callback(null, newList);
 			});
+		}
+	});
+};
+
+ListProvider.prototype.hideList = function(listId, userId, callback) {
+	var queryObject = this.getListQueryObject(listId, userId);
+	this.getCollection(function(error, list_collection) {
+		if( error ) callback( error );
+		else {
+			list_collection.update(
+				queryObject,
+				{"$set": {hidden: true}},
+				function(error, result) {
+					if( error ) callback(error);
+					else callback(null, result);
+				}
+			);
 		}
 	});
 };
