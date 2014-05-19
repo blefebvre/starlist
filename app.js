@@ -13,8 +13,9 @@ var express = require('express')
 /**
  * Config
  */
-var cookieSecret = process.env.COOKIE_PARSER || 'starlist'
-	, dbConnectionUrl = process.env.DB_CONNECTION_URL || 'mongodb://localhost:27017/starlist';
+var config = require('./env.json')[process.env.NODE_ENV || 'development'];
+var cookieSecret = config.COOKIE_PARSER
+	, dbConnectionUrl = config.DB_CONNECTION_URL;
 
 var app = express();
 
